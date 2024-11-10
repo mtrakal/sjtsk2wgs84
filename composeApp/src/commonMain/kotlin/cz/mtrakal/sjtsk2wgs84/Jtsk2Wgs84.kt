@@ -112,3 +112,42 @@ data class Wgs84(
     val longitude: Double,
     val altitude: Double,
 )
+
+@Serializable
+data class GeoJson(
+    val type: String = "FeatureCollection",
+    val features: List<Feature>,
+)
+
+@Serializable
+data class Feature(
+    val type: String = "Feature",
+    val geometry: Geometry,
+    val properties: Properties,
+)
+
+@Serializable
+data class Geometry(
+    val type: String = "Point",
+    val coordinates: List<Double>,
+)
+
+@Serializable
+data class Properties(
+    val altitude: String,
+)
+
+fun List<Wgs84>.toGeoJson(): GeoJson {
+    return GeoJson(
+        features = this.map {
+            Feature(
+                geometry = Geometry(
+                    coordinates = listOf(it.longitude, it.latitude, it.altitude),
+                ),
+                properties = Properties(
+                    altitude = it.altitude.toString(),
+                ),
+            )
+        }
+    )
+}
