@@ -1,4 +1,4 @@
-package cz.mtrakal.sjtsk2wgs84
+package app
 
 class JVMPlatform: Platform {
     override val name: String = "Java ${System.getProperty("java.version")}"

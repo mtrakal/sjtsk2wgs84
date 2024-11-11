@@ -1,4 +1,4 @@
-package cz.mtrakal.sjtsk2wgs84
+package app
 
 import kotlinx.serialization.Serializable
 import kotlin.math.*
@@ -95,7 +95,7 @@ class Jtsk2Wgs84 {
         val long = L * 180 / PI
         val height = floor(hOut * 100) / 100
 
-        return Wgs84(lat, long, height)
+        return Wgs84(lat, long, height, jtsk)
     }
 }
 
@@ -111,6 +111,7 @@ data class Wgs84(
     val latitude: Double,
     val longitude: Double,
     val altitude: Double,
+    val jtsk: Jtsk,
 )
 
 @Serializable
@@ -129,12 +130,20 @@ data class Feature(
 @Serializable
 data class Geometry(
     val type: String = "Point",
+    /**
+     * Longitude, Latitude, Altitude / Elevation
+     */
     val coordinates: List<Double>,
 )
 
 @Serializable
 data class Properties(
     val altitude: String,
+    val jtskX: String,
+    val jtskY: String,
+    val jtskAltitude: String,
+    val longitude: String,
+    val latitude: String,
 )
 
 fun List<Wgs84>.toGeoJson(): GeoJson {
@@ -146,6 +155,12 @@ fun List<Wgs84>.toGeoJson(): GeoJson {
                 ),
                 properties = Properties(
                     altitude = it.altitude.toString(),
+                    longitude = it.longitude.toString(),
+                    latitude = it.latitude.toString(),
+                    jtskX = it.jtsk.coordinateX.toString(),
+                    jtskY = it.jtsk.coordinateY.toString(),
+                    jtskAltitude = it.jtsk.altitude.toString(),
+
                 ),
             )
         }

@@ -1,4 +1,4 @@
-package cz.mtrakal.sjtsk2wgs84
+package app
 
 class WasmPlatform: Platform {
     override val name: String = "Web with Kotlin/Wasm"

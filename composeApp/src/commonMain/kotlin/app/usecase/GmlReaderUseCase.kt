@@ -1,5 +1,6 @@
-package cz.mtrakal.sjtsk2wgs84
+package app.usecase
 
+import app.Jtsk
 import com.fleeksoft.ksoup.Ksoup
 
 class GmlReaderUseCase {
