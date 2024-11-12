@@ -1,6 +1,8 @@
 package app.koin
 
 import app.*
+import app.usecase.CpuCoresUseCase
+import app.usecase.getCpuCoresUseCase
 import kotlinx.serialization.json.Json
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
@@ -16,4 +18,5 @@ fun appModule() = module {
     }
     single<Converter> { getConverter() }
     viewModelOf(::AppViewModel)
+    single<CpuCoresUseCase> { getCpuCoresUseCase() }
 }

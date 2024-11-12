@@ -55,6 +55,8 @@ kotlin {
 //            implementation("org.osgeo:proj4j:jar:0.1.0")
             implementation("org.locationtech.proj4j:proj4j:1.3.0")
             implementation("org.locationtech.proj4j:proj4j-epsg:1.3.0")
+            implementation("co.touchlab:stately-concurrent-collections:2.0.0")
+
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

@@ -2,13 +2,15 @@ package app
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import io.github.vinceglb.filekit.compose.rememberFilePickerLauncher
 import io.github.vinceglb.filekit.compose.rememberFileSaverLauncher
 import io.github.vinceglb.filekit.core.PickerMode
@@ -21,12 +23,17 @@ import org.koin.compose.viewmodel.koinViewModel
 fun App(
     viewModel: AppViewModel = koinViewModel()
 ) {
+    val uiState by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.startPeriodicUpdates()
+    }
+
     MaterialTheme {
         // FileKit Compose
         val launcherSave = rememberFileSaverLauncher() { file ->
             // Handle the saved file
         }
-
 
         LaunchedEffect(key1 = "vmEvent") {
             viewModel.uiEvent.collect { event ->
@@ -42,6 +49,7 @@ fun App(
             }
         }
 
+
         val launcher = rememberFilePickerLauncher(
             type = PickerType.File(extensions = listOf("gml")),
             mode = PickerMode.Single,
@@ -50,11 +58,30 @@ fun App(
             file?.let { viewModel.x(it) }
         }
 
-        Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(Modifier.fillMaxWidth().padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
             Button(onClick = {
-                launcher.launch()
+                if (uiState.loading) {
+                    viewModel.cancel()
+                } else {
+                    launcher.launch()
+                }
             }) {
-                Text("Open file")
+                if (uiState.loading) {
+                    CircularProgressIndicator()
+                } else {
+                    Text("Open file")
+                }
+            }
+
+            uiState.loadingPercentage.forEach {
+                if (it.value >= 99.5f) {
+                    Text("Done")
+                } else {
+                    LinearProgressIndicator(
+                        progress = it.value,
+                        modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
+                    )
+                }
             }
         }
     }
