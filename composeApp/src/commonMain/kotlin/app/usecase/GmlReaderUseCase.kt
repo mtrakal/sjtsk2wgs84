@@ -10,7 +10,7 @@ class GmlReaderUseCase {
 
         val jtskList = mutableListOf<Jtsk>()
         select.listIterator().forEach { gmlPos ->
-            val (x: Double, y: Double, h: Double) = gmlPos.text().split(' ').map {
+            val (y: Double, x: Double, h: Double) = gmlPos.text().split(' ').map {
                 it.toDouble()
             }
             jtskList.add(Jtsk(x, y, h))

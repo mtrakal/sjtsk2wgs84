@@ -10,7 +10,8 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 class AppViewModel(
-    private val json: Json
+    private val json: Json,
+    private val converter: Converter
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(AppUiState.initial())
     val uiState: StateFlow<AppUiState> = _uiState.asStateFlow()
@@ -22,10 +23,10 @@ class AppViewModel(
         viewModelScope.launch {
             file.path?.let {
                 val jtsks = GmlReaderUseCase().invoke(it)
-                val converter = Jtsk2Wgs84()
+//                val converter = Jtsk2Wgs84()
 
                 val wgs84s: List<Wgs84> = jtsks.map {
-                    converter.convert(it)
+                    converter.convert(jtsk = it)
                 }
 
                 val geojson = wgs84s.toGeoJson()

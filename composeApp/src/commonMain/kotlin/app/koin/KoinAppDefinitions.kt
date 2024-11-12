@@ -1,9 +1,6 @@
 package app.koin
 
-import androidx.lifecycle.viewmodel.compose.viewModel
-import app.AppViewModel
-import app.Platform
-import app.getPlatform
+import app.*
 import kotlinx.serialization.json.Json
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
@@ -17,5 +14,6 @@ fun appModule() = module {
             encodeDefaults = true
         }
     }
+    single<Converter> { getConverter() }
     viewModelOf(::AppViewModel)
 }

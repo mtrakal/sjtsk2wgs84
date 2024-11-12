@@ -1,7 +1,5 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
@@ -54,10 +52,15 @@ kotlin {
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
             implementation("org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose:2.8.2")
+//            implementation("org.osgeo:proj4j:jar:0.1.0")
+            implementation("org.locationtech.proj4j:proj4j:1.3.0")
+            implementation("org.locationtech.proj4j:proj4j-epsg:1.3.0")
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
+            implementation("org.locationtech.proj4j:proj4j:1.3.0")
+            implementation("org.locationtech.proj4j:proj4j-epsg:1.3.0")
         }
     }
 }
