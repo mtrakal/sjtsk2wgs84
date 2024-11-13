@@ -219,10 +219,28 @@ data class Jtsk(
 
 @Serializable
 data class Wgs84(
+    /**
+     * Czech around 50
+     */
     val latitude: Double,
+    /**
+     * Czech around 14
+     */
     val longitude: Double,
     val altitude: Double?,
     val jtsk: Jtsk,
+)
+
+@Serializable
+data class Point(
+    /**
+     * Czech around 50
+     */
+    val latitude: Double,
+    /**
+     * Czech around 14
+     */
+    val longitude: Double,
 )
 
 @Serializable

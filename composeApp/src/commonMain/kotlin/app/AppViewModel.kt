@@ -28,7 +28,7 @@ class AppViewModel(
     private fun updateState() {
         _uiState.value = _uiState.value.copy(
             loading = job.let { it != null && it.isActive },
-            loadingPercentage = loadingPercentage
+            loadingPercentage = loadingPercentage.toMap()
         )
     }
 
@@ -52,7 +52,13 @@ class AppViewModel(
                             converter.convert(jtsk = it)
                         }
                     }
-                }.awaitAll().flatten()
+                }.awaitAll().flatten().filter {
+                    isWithinBounds(
+                        it,
+                        Point(50.6226469, 15.2661303),
+                        Point(50.6222956, 15.2668211)
+                    )
+                }
 
                 val geojson = wgs84s.toGeoJson()
 
@@ -66,6 +72,15 @@ class AppViewModel(
         }.apply {
             start()
         }
+    }
+
+    fun isWithinBounds(
+        point: Wgs84,
+        topLeft: Point,
+        bottomRight: Point,
+    ): Boolean {
+        return point.latitude in bottomRight.latitude..topLeft.latitude &&
+                point.longitude in topLeft.longitude..bottomRight.longitude
     }
 
     fun startPeriodicUpdates() {
