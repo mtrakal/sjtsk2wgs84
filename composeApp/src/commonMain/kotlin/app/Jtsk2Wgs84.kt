@@ -1,5 +1,6 @@
 package app
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlin.math.*
 
@@ -267,12 +268,18 @@ data class Geometry(
 
 @Serializable
 data class Properties(
+    @SerialName("Altitude")
     val altitude: String,
+    @SerialName("ETRS89 X")
     val jtskX: String,
+    @SerialName("ETRS89 Y")
     val jtskY: String,
+    @SerialName("ETRS89 Altitude")
     val jtskAltitude: String,
-    val longitude: String,
+    @SerialName("GPS X")
     val latitude: String,
+    @SerialName("GPS Y")
+    val longitude: String,
 )
 
 fun List<Wgs84>.toGeoJson(): GeoJson {
@@ -283,12 +290,12 @@ fun List<Wgs84>.toGeoJson(): GeoJson {
                     coordinates = listOfNotNull(it.longitude, it.latitude, it.altitude),
                 ),
                 properties = Properties(
-                    altitude = it.altitude.toString(),
-                    longitude = it.longitude.toString(),
-                    latitude = it.latitude.toString(),
-                    jtskX = it.jtsk.coordinateX.toString(),
-                    jtskY = it.jtsk.coordinateY.toString(),
-                    jtskAltitude = it.jtsk.altitude.toString(),
+                    altitude = it.altitude.toString().replace(".", ","),
+                    longitude = it.longitude.toString().replace(".", ","),
+                    latitude = it.latitude.toString().replace(".", ","),
+                    jtskX = it.jtsk.coordinateX.toString().replace(".", ","),
+                    jtskY = it.jtsk.coordinateY.toString().replace(".", ","),
+                    jtskAltitude = it.jtsk.altitude.toString().replace(".", ","),
 
                 ),
             )
