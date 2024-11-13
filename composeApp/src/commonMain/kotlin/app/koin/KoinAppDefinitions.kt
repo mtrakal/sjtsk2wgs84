@@ -16,7 +16,7 @@ fun appModule() = module {
             encodeDefaults = true
         }
     }
-    single<Converter> { getConverter() }
+    single<Converter> { getConverter(source = "epsg:25833", target = "epsg:4326") }
     viewModelOf(::AppViewModel)
     single<CpuCoresUseCase> { getCpuCoresUseCase() }
 }

@@ -1,9 +1,9 @@
 package app
 
-class ConverterWasmJs : Converter {
-    override fun convert(source: String, target: String, jtsk: Jtsk): Wgs84 {
+class ConverterWasmJs(source: String, target: String) : Converter {
+    override fun convert(jtsk: Jtsk): Wgs84 {
         TODO("Not yet implemented")
     }
 }
 
-actual fun getConverter(): Converter = ConverterWasmJs()
+actual fun getConverter(source: String, target: String): Converter = ConverterWasmJs(source, target)

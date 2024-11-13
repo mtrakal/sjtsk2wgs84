@@ -67,7 +67,7 @@ fun App(
                 }
             }) {
                 if (uiState.loading) {
-                    CircularProgressIndicator()
+                    CircularProgressIndicator(color = MaterialTheme.colors.onPrimary)
                 } else {
                     Text("Open file")
                 }

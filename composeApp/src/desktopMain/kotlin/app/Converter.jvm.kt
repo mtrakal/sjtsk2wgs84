@@ -4,15 +4,18 @@ import org.locationtech.proj4j.CRSFactory
 import org.locationtech.proj4j.CoordinateTransformFactory
 import org.locationtech.proj4j.ProjCoordinate
 
-class ConverterJvm : Converter {
-    override fun convert(source: String, target: String, jtsk: Jtsk): Wgs84 {
-        val crsFactory = CRSFactory()
-        val sourceCrs = crsFactory.createFromName(source)
-        val targetCrs = crsFactory.createFromName(target)
+class ConverterJvm(
+    source: String,
+    target: String,
+) : Converter {
+    private val crsFactory = CRSFactory()
+    private val sourceCrs = crsFactory.createFromName(source)
+    private val targetCrs = crsFactory.createFromName(target)
 
-        val ctFactory = CoordinateTransformFactory()
-        val transformer = ctFactory.createTransform(sourceCrs, targetCrs)
+    private val ctFactory = CoordinateTransformFactory()
+    private val transformer = ctFactory.createTransform(sourceCrs, targetCrs)
 
+    override fun convert(jtsk: Jtsk): Wgs84 {
         // `result` is an output parameter to `transform()`
         val result = ProjCoordinate()
         transformer.transform(ProjCoordinate(jtsk.coordinateX, jtsk.coordinateY, jtsk.altitude), result)
@@ -20,4 +23,4 @@ class ConverterJvm : Converter {
     }
 }
 
-actual fun getConverter(): Converter = ConverterJvm()
+actual fun getConverter(source: String, target: String): Converter = ConverterJvm(source, target)
