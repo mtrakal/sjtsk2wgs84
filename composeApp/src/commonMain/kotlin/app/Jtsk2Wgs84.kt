@@ -290,12 +290,12 @@ fun List<Wgs84>.toGeoJson(): GeoJson {
                     coordinates = listOfNotNull(it.longitude, it.latitude, it.altitude),
                 ),
                 properties = Properties(
-                    altitude = it.altitude.toString().replace(".", ","),
-                    longitude = it.longitude.toString().replace(".", ","),
-                    latitude = it.latitude.toString().replace(".", ","),
-                    jtskX = it.jtsk.coordinateX.toString().replace(".", ","),
-                    jtskY = it.jtsk.coordinateY.toString().replace(".", ","),
-                    jtskAltitude = it.jtsk.altitude.toString().replace(".", ","),
+                    altitude = it.altitude.toString(),
+                    longitude = it.longitude.toString(),
+                    latitude = it.latitude.toString(),
+                    jtskX = it.jtsk.coordinateX.toString(),
+                    jtskY = it.jtsk.coordinateY.toString(),
+                    jtskAltitude = it.jtsk.altitude.toString(),
 
                 ),
             )
