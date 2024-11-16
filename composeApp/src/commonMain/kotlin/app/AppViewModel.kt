@@ -15,6 +15,7 @@ class AppViewModel(
     private val json: Json,
     private val converter: Converter,
     private val cpuCores: CpuCoresUseCase,
+    private val altitudeFormatter: AltitudeFormatter,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(AppUiState.initial())
     val uiState: StateFlow<AppUiState> = _uiState.asStateFlow()
@@ -60,7 +61,7 @@ class AppViewModel(
                     )
                 }
 
-                val geojson = wgs84s.toGeoJson()
+                val geojson = wgs84s.toGeoJson(altitudeFormatter)
 
                 _uiEvent.emit(
                     AppUiEvent.ShowSaveDialog(

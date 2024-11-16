@@ -282,22 +282,23 @@ data class Properties(
     val longitude: String,
 )
 
-fun List<Wgs84>.toGeoJson(): GeoJson {
+fun List<Wgs84>.toGeoJson(altitudeFormatter: AltitudeFormatter): GeoJson {
     return GeoJson(
         features = this.map {
+            val alt: Double = altitudeFormatter.convert(it.altitude ?: (it.jtsk.altitude + 43.58))
             Feature(
                 geometry = Geometry(
-                    coordinates = listOfNotNull(it.longitude, it.latitude, it.altitude),
+                    coordinates = listOfNotNull(it.longitude, it.latitude, alt),
                 ),
                 properties = Properties(
-                    altitude = it.altitude.toString(),
+                    altitude = alt.toString(),
                     longitude = it.longitude.toString(),
                     latitude = it.latitude.toString(),
                     jtskX = it.jtsk.coordinateX.toString(),
                     jtskY = it.jtsk.coordinateY.toString(),
                     jtskAltitude = it.jtsk.altitude.toString(),
 
-                ),
+                    ),
             )
         }
     )

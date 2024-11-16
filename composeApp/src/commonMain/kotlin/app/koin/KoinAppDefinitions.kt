@@ -19,4 +19,5 @@ fun appModule() = module {
     single<Converter> { getConverter(source = "epsg:25833", target = "epsg:4326") }
     viewModelOf(::AppViewModel)
     single<CpuCoresUseCase> { getCpuCoresUseCase() }
+    single<AltitudeFormatter> { getAltitudeFormatter() }
 }
